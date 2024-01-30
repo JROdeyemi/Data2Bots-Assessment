@@ -1,11 +1,3 @@
--- Create the table enforcing the constraints
-CREATE TABLE joshodey2178_analytics.agg_shipments(
-	ingestion_date DATE PRIMARY KEY NOT NULL,
-	tt_late_shipments INT NOT NULL,
-	tt_undelivered_items INT NOT NULL
-)
-
-
 -- Transform and insert data into table
 INSERT INTO joshodey2178_analytics.agg_shipments
 SELECT
@@ -16,7 +8,3 @@ FROM
     joshodey2178_staging.fact_shipment_deliveries AS s
     JOIN joshodey2178_staging.fact_orders AS o ON s.order_id = o.order_id;
 	
-
--- Check data is loaded correctly.
-SELECT *
-FROM joshodey2178_analytics.agg_shipments
