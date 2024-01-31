@@ -1,5 +1,5 @@
 -- Create table
-CREATE TABLE joshodey2178_analytics.agg_public_holiday (
+CREATE TABLE IF NOT EXISTS joshodey2178_analytics.agg_public_holiday (
 	ingestion_date DATE PRIMARY KEY NOT NULL,
 	tt_order_hol_jan INT NOT NULL,
 	tt_order_hol_feb INT NOT NULL,

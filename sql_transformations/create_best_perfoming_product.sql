@@ -1,4 +1,4 @@
-CREATE TABLE joshodey2178_analytics.best_performing_product(
+CREATE TABLE IF NOT EXISTS joshodey2178_analytics.best_performing_product(
 	Ingestion_date DATE PRIMARY KEY NOT NULL,
 	product_name VARCHAR(50) NOT NULL,
 	most_ordered_day DATE NOT NULL,
