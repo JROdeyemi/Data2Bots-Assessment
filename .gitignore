@@ -1,2 +1,6 @@
 .env
 2.env
+dim_tables/
+adhoc_etl.ipynb
+Ingest_data_test.ipynb
+Ingest_data_test.py

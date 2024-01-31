@@ -1,38 +1,51 @@
-#!/usr/bin/env python3.8
+#!/usr/bin/
 
 import subprocess
 import os
+from dotenv import load_dotenv
+import psycopg2
 
+load_dotenv("/workspaces/Data2Bots-Assessment/.env")
 
 # Function to run the Python notebooks
 def run_python_notebook(notebook_path):
     subprocess.run(['jupyter', 'nbconvert', '--to', 'script', notebook_path])
     subprocess.run(['python', notebook_path.replace('.ipynb', '.py')])
 
+
 # Function to run SQL scripts
-def run_sql_scripts(sql_folder, script_order, db_host, db_port, db_name, db_user, db_password):
+def run_sql_scripts(connection, sql_folder, script_order):
     for script_name in script_order:
         script_path = os.path.join(sql_folder, script_name)
-        subprocess.run([
-            'psql',
-            '-h', db_host,
-            '-p', str(db_port),
-            '-d', db_name,
-            '-U', db_user,
-            '-W',  # Prompt for password
-            '-f', script_path
-        ], input=db_password.encode('utf-8'))
+        with connection.cursor() as cursor:
+            with open(script_path, 'r') as script_file:
+                cursor.execute(script_file.read())
+                print(f'Successfully executed {script_name}')
+        connection.commit()
+
+# Function to create a PostgreSQL connection
+def create_postgres_connection(host, port, database, user, password):
+    return psycopg2.connect(
+        host=host,
+        port=port,
+        database=database,
+        user=user,
+        password=password
+    )
 
 
 if __name__ == "__main__":
     # Define paths and configurations
-    python_notebook_path_1 = "C:\\Users\\USER\\Documents\\Data2Bots Assessment\\ingest_data_test.ipynb"
-    sql_scripts_folder = "C:\\Users\\USER\\Documents\\Data2Bots Assessment\\sql_transformations"
+    python_notebook_path_1 = "/workspaces/Data2Bots-Assessment/Ingest_data.ipynb"
+    sql_scripts_folder = "/workspaces/Data2Bots-Assessment/sql_transformations"
     #python_notebook_path_2 = '/path/to/notebook2.ipynb'
 
     # Define the order in which SQL scripts should be executed
-    script_order = ['create_agg_public_holiday.sql', 'create_agg_shipments.sql', 'create_best_peeforming_product.sql',
+    script_order = ['create_agg_public_holiday.sql', 'create_agg_shipments.sql', 'create_best_performing_product.sql',
                     'insert_into_agg_public_holiday.sql', 'insert_into_agg_shipments.sql', 'insert_into_best_performing_product.sql']
+
+     
+
 
     # Database connection details
     PG_USERNAME = os.getenv("PG_USERNAME")
@@ -40,8 +53,10 @@ if __name__ == "__main__":
     PG_HOST = os.getenv("PG_HOST")
     PG_DB = os.getenv("PG_DB")
 
+    # Create PostgreSQL connection
+    connection = create_postgres_connection(host=PG_HOST, port=5432, database=PG_DB, user=PG_USERNAME, password=PG_PASS)
 
     # Run the pipeline
     run_python_notebook(python_notebook_path_1)
-    run_sql_scripts(sql_scripts_folder, script_order, db_host=PG_HOST, db_port=5433, db_name=PG_DB, db_user=PG_USERNAME, db_password=PG_PASS)
+    run_sql_scripts(connection, sql_scripts_folder, script_order)
     #run_python_notebook(python_notebook_path_2)

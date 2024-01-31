@@ -123,7 +123,7 @@ INNER JOIN joshodey2178_staging.fact_orders AS o
 	ON s.order_id = o.order_id
 WHERE o.product_id = (SELECT p.product_id 
 					 FROM product_data AS p)
-	AND (s.shipment_date - o.order_date) >= 6
+	AND (CAST(s.shipment_date AS DATE) - CAST(o.order_date AS DATE)) >= 6
 	AND s.delivery_date IS NULL)
 ,
 -- Late shipment percentage
