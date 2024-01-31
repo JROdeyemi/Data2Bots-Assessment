@@ -1,6 +1,7 @@
-# Data Engineering Automation Project
+# AWS S3 - Postgres ELT Pipeline
 
-This project automates the end-to-end process of ingesting, transforming, and exporting data using Python, PostgreSQL, and AWS S3.
+This project automates the end-to-end process of ingesting, transforming, and exporting data between Amazon S3 and Postgres Database. 
+It utilizes Python for the ingestion and exporting, and SQL for data transformation.
 
 ## Project Structure
 
@@ -8,6 +9,7 @@ The project consists of the following components:
 
 1. `ingest_data.ipynb`: Python notebook for ingesting data from an S3 bucket and loading it into a PostgreSQL database.
 2. `export_data.ipynb`: Python notebook for exporting aggregated tables to CSV and dumping them into another S3 bucket.
+
 3. SQL Scripts:
    - `create_agg_public_holiday.sql`: Creates the aggregated holiday table.
    - `create_best_performing_product.sql`: Creates the best-performing product table.
@@ -58,7 +60,6 @@ Ensure you have the following prerequisites installed:
 Python 3.x
 Jupyter Notebook
 PostgreSQL
-AWS CLI (configured with necessary credentials)
 
 ### Configuration
 Before running the automation script, modify the following configurations:
