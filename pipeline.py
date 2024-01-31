@@ -1,4 +1,3 @@
-#!/usr/bin/
 
 import subprocess
 import os
@@ -36,9 +35,9 @@ def create_postgres_connection(host, port, database, user, password):
 
 if __name__ == "__main__":
     # Define paths and configurations
-    python_notebook_path_1 = "/workspaces/Data2Bots-Assessment/Ingest_data.ipynb"
+    ingest_data = "/workspaces/Data2Bots-Assessment/Ingest_data.ipynb"
     sql_scripts_folder = "/workspaces/Data2Bots-Assessment/sql_transformations"
-    python_notebook_path_2 = "/workspaces/Data2Bots-Assessment/export_data.ipynb"
+    export_data = "/workspaces/Data2Bots-Assessment/export_data.ipynb"
 
     # Define the order in which SQL scripts should be executed
     script_order = ['create_agg_public_holiday.sql', 'create_agg_shipments.sql', 'create_best_performing_product.sql',
@@ -57,6 +56,6 @@ if __name__ == "__main__":
     connection = create_postgres_connection(host=PG_HOST, port=5432, database=PG_DB, user=PG_USERNAME, password=PG_PASS)
 
     # Run the pipeline
-    run_python_notebook(python_notebook_path_1)
+    run_python_notebook(notebook_path=ingest_data)
     run_sql_scripts(connection, sql_scripts_folder, script_order)
-    run_python_notebook(python_notebook_path_2)
+    run_python_notebook(notebook_path=export_data)
