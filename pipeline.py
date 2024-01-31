@@ -38,7 +38,7 @@ if __name__ == "__main__":
     # Define paths and configurations
     python_notebook_path_1 = "/workspaces/Data2Bots-Assessment/Ingest_data.ipynb"
     sql_scripts_folder = "/workspaces/Data2Bots-Assessment/sql_transformations"
-    #python_notebook_path_2 = '/path/to/notebook2.ipynb'
+    python_notebook_path_2 = "/workspaces/Data2Bots-Assessment/export_data.ipynb"
 
     # Define the order in which SQL scripts should be executed
     script_order = ['create_agg_public_holiday.sql', 'create_agg_shipments.sql', 'create_best_performing_product.sql',
@@ -59,4 +59,4 @@ if __name__ == "__main__":
     # Run the pipeline
     run_python_notebook(python_notebook_path_1)
     run_sql_scripts(connection, sql_scripts_folder, script_order)
-    #run_python_notebook(python_notebook_path_2)
+    run_python_notebook(python_notebook_path_2)
