@@ -4,7 +4,7 @@ import os
 from dotenv import load_dotenv
 import psycopg2
 
-load_dotenv("/workspaces/Data2Bots-Assessment/.env")
+load_dotenv("/workspaces/Data2Bots-Assessment/2.env")
 
 # Function to run the Python notebooks
 def run_python_notebook(notebook_path):
@@ -35,9 +35,9 @@ def create_postgres_connection(host, port, database, user, password):
 
 if __name__ == "__main__":
     # Define paths and configurations
-    ingest_data = "/workspaces/Data2Bots-Assessment/Ingest_data.ipynb"
+    ingest_data = "/workspaces/Data2Bots-Assessment/Ingest_data_test.ipynb"
     sql_scripts_folder = "/workspaces/Data2Bots-Assessment/sql_transformations"
-    export_data = "/workspaces/Data2Bots-Assessment/export_data.ipynb"
+    export_data = "/workspaces/Data2Bots-Assessment/export_data_test.ipynb"
 
     # Define the order in which SQL scripts should be executed
     script_order = ['create_agg_public_holiday.sql', 'create_agg_shipments.sql', 'create_best_performing_product.sql',
@@ -51,9 +51,10 @@ if __name__ == "__main__":
     PG_PASS = os.getenv("PG_PASS")
     PG_HOST = os.getenv("PG_HOST")
     PG_DB = os.getenv("PG_DB")
+    PG_PORT = os.getenv("PG_PORT")
 
     # Create PostgreSQL connection
-    connection = create_postgres_connection(host=PG_HOST, port=5432, database=PG_DB, user=PG_USERNAME, password=PG_PASS)
+    connection = create_postgres_connection(host=PG_HOST, port=PG_PORT, database=PG_DB, user=PG_USERNAME, password=PG_PASS)
 
     # Run the pipeline
     run_python_notebook(notebook_path=ingest_data)
