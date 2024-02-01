@@ -1,7 +1,9 @@
 from airflow import DAG
+from airflow import operators 
+from airflow.operators import python_operator
 from airflow.operators.python_operator import PythonOperator
 from datetime import datetime, timedelta
-import os
+import os 
 
 # Set your Airflow DAG parameters
 default_args = {
